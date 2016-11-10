@@ -12,18 +12,36 @@ app.use(express.static(publicPath));
 var count =0;
 io.on('connection', (socket)=> {
     count++;
-    console.log(`New user -${count} connected!`);
+    console.log(`New user -${count}- connected!`);
+  
+    socket.emit('newMessage',{
+        from: 'Adming',
+        text: 'Welcome to chat app',
+        createdAt: new Date().toGMTString()
+    });
+    //socket.broadcast.emit 
+    socket.broadcast.emit('newMessage',{
+        from: 'Admin',
+        text: 'New user joined',
+        createdAt: new Date().toGMTString()
+    })
     
     socket.on('createMessage',(message)=> {
         console.log('createMessage', message);
         io.emit('newMessage',{
-           from: message.from,
-           text: message.text,
-           createdAt: new Date().toGMTString()
+          from: message.from,
+          text: message.text,
+          createdAt: new Date().toGMTString()
         });
+        // socket.broadcast.emit('newMessage', {
+        //     from: message.from,
+        //     text: message.text,
+        //     createdAt: new Date().toGMTString()
+        // });
     });
     socket.on('disconnect',()=> {
-        console.log('user was disconnect');
+        count--;
+        console.log(`user was disconnect`);
     });
 });
 
