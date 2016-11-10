@@ -9,17 +9,18 @@ var server = http.createServer(app);
 var io = socketIO(server);
 
 app.use(express.static(publicPath));
-
+var count =0;
 io.on('connection', (socket)=> {
-    console.log('new user connected');
+    count++;
+    console.log(`New user -${count} connected!`);
     
-    socket.emit('newMessage',{
-        from: 'Aurelia',
-        text: 'Hello thats great',
-        createdAt: new Date().toGMTString()
-    });
     socket.on('createMessage',(message)=> {
         console.log('createMessage', message);
+        io.emit('newMessage',{
+           from: message.from,
+           text: message.text,
+           createdAt: new Date().toGMTString()
+        });
     });
     socket.on('disconnect',()=> {
         console.log('user was disconnect');
