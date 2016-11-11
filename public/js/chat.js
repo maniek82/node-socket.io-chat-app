@@ -6,10 +6,16 @@
    var newMessage = messages.children('li:last-child');
    //Heights
    var clientHeight = messages.prop('clientHeight');
+   console.log("clientHeight" +clientHeight);
+   
    var scrollTop = messages.prop('scrollTop');
+   console.log('scrollTop' + scrollTop);
    var scrollHeight = messages.prop('scrollHeight');
+   console.log('scrollHeight'+scrollHeight);
    var newMessageHeight = newMessage.innerHeight();
+   console.log('newMessageHeight'+ newMessageHeight);
    var lastMessageHeight = newMessage.prev().innerHeight();
+   console.log('lastMessageHeight'+ lastMessageHeight);
    
    if(clientHeight+ scrollTop +newMessageHeight+lastMessageHeight >= scrollHeight) {
     messages.scrollTop(scrollHeight);
